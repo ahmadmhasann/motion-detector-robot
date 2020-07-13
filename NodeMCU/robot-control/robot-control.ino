@@ -4,8 +4,8 @@
 #include <SoftwareSerial.h>
 SoftwareSerial __uart(D6,D5); // (Rx, Tx)
 
-const char* ssid = "ssid";
-const char* password = "password";
+const char* ssid = "Vodafone";
+const char* password = "#vodafoneVDSL2020#";
 
 ESP8266WebServer server(80);
 int data;
@@ -33,6 +33,9 @@ void setup(void){
   Serial.begin(9600);
   Serial.println();
   __uart.begin(9600);
+  
+  Serial.println(WiFi.macAddress());
+  WiFi.mode(WIFI_STA);
 
   WiFi.begin(ssid, password);
   WiFi.setAutoConnect(false);
@@ -46,6 +49,8 @@ void setup(void){
   server.on("/command", handleCommand);
   server.begin();
   Serial.println("HTTP server started");
+    Serial.println(WiFi.localIP());         // Send the IP address of the ESP8266 to the computer
+
 }
 
 void loop(void){
